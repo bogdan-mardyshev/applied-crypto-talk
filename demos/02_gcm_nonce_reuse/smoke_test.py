@@ -3,6 +3,7 @@
 import sys
 from pathlib import Path
 
+sys.modules.pop("demo", None)
 sys.path.insert(0, str(Path(__file__).parent))
 
 from demo import KEY, NONCE, PLAINTEXT_1, PLAINTEXT_2, attack_nonce_reuse, encrypt_gcm, xor_bytes

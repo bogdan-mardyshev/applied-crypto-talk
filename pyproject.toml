@@ -8,8 +8,9 @@ ignore = ["E501"]
 # Скелеты демок импортируют библиотеки для подсказок в docstrings —
 # импорты "неиспользованы" пока студент не реализует функции.
 [tool.ruff.lint.per-file-ignores]
-"demos/**/demo.py"   = ["F401"]
-"demos/**/server.py" = ["F401"]
+"demos/**/demo.py"        = ["F401"]
+"demos/**/server.py"      = ["F401"]
+"demos/**/smoke_test.py"  = ["E402"]  # sys.modules.pop before import is intentional
 
 [tool.black]
 line-length = 100
