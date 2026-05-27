@@ -6,12 +6,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from demo import (
-    G,
     MESSAGE_1,
     MESSAGE_2,
-    N,
     NONCE_K,
     PRIVATE_KEY_D,
+    G,
     ecdsa_sign_with_k,
     ecdsa_verify,
     hash_message,
@@ -44,9 +43,9 @@ def test_private_key_recovery() -> None:
     _, s2 = ecdsa_sign_with_k(MESSAGE_2, PRIVATE_KEY_D, NONCE_K)
 
     recovered = recover_private_key(h1, h2, r, s1, s2)
-    assert recovered == PRIVATE_KEY_D, (
-        f"Восстановленный d={hex(recovered)} != оригинальный d={hex(PRIVATE_KEY_D)}"
-    )
+    assert (
+        recovered == PRIVATE_KEY_D
+    ), f"Восстановленный d={hex(recovered)} != оригинальный d={hex(PRIVATE_KEY_D)}"
 
 
 def test_recovered_key_can_sign() -> None:

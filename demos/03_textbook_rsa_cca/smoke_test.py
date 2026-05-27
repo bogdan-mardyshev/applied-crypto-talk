@@ -10,7 +10,6 @@ from demo import (
     _E_DEMO,
     _N_DEMO,
     cca_attack,
-    decryption_oracle,
     rsa_decrypt,
     rsa_encrypt,
 )

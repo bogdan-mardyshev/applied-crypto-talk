@@ -19,8 +19,8 @@ from PIL import Image
 
 # --- Детерминированные параметры (не менять — нужны для smoke-теста) ---
 _SEED = b"applied-crypto-talk-2024-ecb-demo"
-KEY: bytes = hashlib.sha256(_SEED).digest()   # 32 байта → AES-256
-IV: bytes  = hashlib.md5(_SEED).digest()       # 16 байт  → CBC IV
+KEY: bytes = hashlib.sha256(_SEED).digest()  # 32 байта → AES-256
+IV: bytes = hashlib.md5(_SEED).digest()  # 16 байт  → CBC IV
 NONCE: bytes = hashlib.md5(b"gcm-nonce").digest()[:12]  # 12 байт → GCM nonce
 
 ASSETS_DIR = Path(__file__).parent / "assets"
@@ -29,6 +29,7 @@ ASSETS_DIR = Path(__file__).parent / "assets"
 # ---------------------------------------------------------------------------
 # Вспомогательные функции (уже реализованы — используй в своих функциях)
 # ---------------------------------------------------------------------------
+
 
 def image_to_raw_bytes(path: Path) -> tuple[bytes, tuple[int, int]]:
     """Открыть PNG, вернуть сырые RGB-байты и размер (width, height)."""
@@ -51,6 +52,7 @@ def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
 # ---------------------------------------------------------------------------
 # ТВОЯ ЗАДАЧА: реализовать три функции шифрования
 # ---------------------------------------------------------------------------
+
 
 def encrypt_ecb(data: bytes, key: bytes) -> bytes:
     """AES-ECB: каждый 16-байтовый блок шифруется НЕЗАВИСИМО одним ключом.
@@ -102,6 +104,7 @@ def encrypt_gcm(data: bytes, key: bytes, nonce: bytes) -> bytes:
 # ---------------------------------------------------------------------------
 # main() — не менять структуру, только реализуй функции выше
 # ---------------------------------------------------------------------------
+
 
 def _create_synthetic_image() -> None:
     """Создать тестовое изображение с повторяющимися паттернами."""

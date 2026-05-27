@@ -16,9 +16,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 @pytest.fixture(scope="module")
 def flask_server():
     """Запустить Flask-сервер один раз для всех тестов модуля."""
-    from server import app
-
     import logging
+
+    from server import app
 
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -52,7 +52,6 @@ def test_login_returns_token(flask_server: str) -> None:
 
 def test_length_extension_attack_succeeds(flask_server: str) -> None:
     """Атака должна пройти на /admin с уязвимым MD5(secret||payload) токеном."""
-    import urllib.parse
 
     import hashpumpy
 
@@ -74,9 +73,8 @@ def test_length_extension_attack_succeeds(flask_server: str) -> None:
 
 def test_hmac_blocks_length_extension() -> None:
     """HMAC-MD5 должен отвергать расширенный токен."""
-    from server import SECRET, make_safe_token, make_vulnerable_token
-
     import hashpumpy
+    from server import SECRET, make_safe_token, make_vulnerable_token
 
     original = b"username=alice&role=user"
     vuln_token = make_vulnerable_token(original)

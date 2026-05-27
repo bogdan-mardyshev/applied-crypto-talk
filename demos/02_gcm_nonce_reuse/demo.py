@@ -12,8 +12,8 @@ Demo 02 — GCM Nonce Reuse: восстановление открытого т�
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 # --- Детерминированные параметры ---
-KEY: bytes   = bytes.fromhex("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4")
-NONCE: bytes = bytes.fromhex("000102030405060708090a0b")   # ← ОДИН nonce для обоих!
+KEY: bytes = bytes.fromhex("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4")
+NONCE: bytes = bytes.fromhex("000102030405060708090a0b")  # ← ОДИН nonce для обоих!
 
 PLAINTEXT_1 = b"transfer: alice -> bob  $10000"
 PLAINTEXT_2 = b"transfer: alice -> eve  $99999"
@@ -22,6 +22,7 @@ PLAINTEXT_2 = b"transfer: alice -> eve  $99999"
 # ---------------------------------------------------------------------------
 # ТВОЯ ЗАДАЧА
 # ---------------------------------------------------------------------------
+
 
 def xor_bytes(a: bytes, b: bytes) -> bytes:
     """Побайтовый XOR двух последовательностей (до длины наименьшей).
@@ -64,6 +65,7 @@ def attack_nonce_reuse(ct1: bytes, ct2: bytes, known_pt1: bytes) -> bytes:
 # main()
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     print("=" * 58)
     print("  GCM Nonce Reuse Attack")
@@ -73,8 +75,8 @@ def main() -> None:
     ct1_full = aesgcm.encrypt(NONCE, PLAINTEXT_1, None)
     ct2_full = aesgcm.encrypt(NONCE, PLAINTEXT_2, None)
 
-    ct1 = ct1_full[:len(PLAINTEXT_1)]
-    ct2 = ct2_full[:len(PLAINTEXT_2)]
+    ct1 = ct1_full[: len(PLAINTEXT_1)]
+    ct2 = ct2_full[: len(PLAINTEXT_2)]
 
     print(f"\n[!] Один nonce для двух сообщений: {NONCE.hex()}")
     print(f"[*] CT1: {ct1.hex()}")

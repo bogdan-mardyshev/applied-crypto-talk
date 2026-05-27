@@ -35,12 +35,13 @@ def truncated_md5(data: bytes, bits: int) -> bytes:
 
     Пример: truncated_md5(b"hello", 16) → bytes длиной 2
     """
-    return hashlib.md5(data).digest()[:bits // 8]
+    return hashlib.md5(data).digest()[: bits // 8]
 
 
 # ---------------------------------------------------------------------------
 # ТВОЯ ЗАДАЧА
 # ---------------------------------------------------------------------------
+
 
 def find_collision(bits: int = 24) -> tuple[bytes, bytes, int]:
     """Birthday attack: найти два разных сообщения с одинаковым truncated MD5.
@@ -73,6 +74,7 @@ def find_collision(bits: int = 24) -> tuple[bytes, bytes, int]:
 # main()
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     print("=" * 58)
     print("  MD5 Birthday Attack Demo")
@@ -95,7 +97,6 @@ def main() -> None:
 
         elapsed = time.time() - start
         h1 = truncated_md5(msg1, bits)
-        h2 = truncated_md5(msg2, bits)
 
         print(f"[+] Найдено за {attempts} попыток ({elapsed*1000:.1f} ms)")
         print(f"    msg1: {msg1.hex()}")

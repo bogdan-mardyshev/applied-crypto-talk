@@ -11,9 +11,9 @@ from demo import BLOCK_A, BLOCK_B, EXPECTED_MD5, main, md5hex
 
 def test_collision_is_real() -> None:
     """MD5(BLOCK_A) должен равняться MD5(BLOCK_B)."""
-    assert md5hex(BLOCK_A) == md5hex(BLOCK_B), (
-        "MD5 хэши не совпадают — коллизионные константы неверны"
-    )
+    assert md5hex(BLOCK_A) == md5hex(
+        BLOCK_B
+    ), "MD5 хэши не совпадают — коллизионные константы неверны"
 
 
 def test_blocks_are_different() -> None:
@@ -29,9 +29,7 @@ def test_blocks_have_equal_length() -> None:
 
 def test_known_md5_value() -> None:
     """MD5 должен совпасть с известным значением из публикации Wang et al."""
-    assert md5hex(BLOCK_A) == EXPECTED_MD5, (
-        f"Ожидали {EXPECTED_MD5}, получили {md5hex(BLOCK_A)}"
-    )
+    assert md5hex(BLOCK_A) == EXPECTED_MD5, f"Ожидали {EXPECTED_MD5}, получили {md5hex(BLOCK_A)}"
 
 
 def test_sha256_no_collision() -> None:

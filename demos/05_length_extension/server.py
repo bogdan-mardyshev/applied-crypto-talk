@@ -19,6 +19,7 @@ SECRET = b"s3cr3t_k3y"  # 10 байт
 # ТВОЯ ЗАДАЧА: реализовать две функции создания токена
 # ---------------------------------------------------------------------------
 
+
 def make_vulnerable_token(data: bytes) -> str:
     """Уязвимая схема: MD5(SECRET || data).
 
@@ -40,6 +41,7 @@ def make_safe_token(data: bytes) -> str:
 # Endpoints (не менять логику роутов)
 # ---------------------------------------------------------------------------
 
+
 def verify_vulnerable_token(data: bytes, token: str) -> bool:
     return make_vulnerable_token(data) == token
 
@@ -56,17 +58,19 @@ def login():
     body = request.get_json(force=True)
     username = "".join(c for c in body.get("username", "guest") if c.isalnum())
     payload = f"username={username}&role=user".encode()
-    return jsonify({
-        "token": make_vulnerable_token(payload),
-        "payload": payload.decode(),
-        "secret_len": len(SECRET),
-    })
+    return jsonify(
+        {
+            "token": make_vulnerable_token(payload),
+            "payload": payload.decode(),
+            "secret_len": len(SECRET),
+        }
+    )
 
 
 @app.route("/admin", methods=["GET"])
 def admin():
     payload = request.args.get("payload", "").encode("latin-1")
-    token   = request.args.get("token", "")
+    token = request.args.get("token", "")
     if not verify_vulnerable_token(payload, token):
         return jsonify({"error": "invalid token"}), 403
     if b"role=admin" not in payload:
@@ -77,7 +81,7 @@ def admin():
 @app.route("/admin-safe", methods=["GET"])
 def admin_safe():
     payload = request.args.get("payload", "").encode("latin-1")
-    token   = request.args.get("token", "")
+    token = request.args.get("token", "")
     if not verify_safe_token(payload, token):
         return jsonify({"error": "invalid HMAC — length extension blocked"}), 403
     if b"role=admin" not in payload:

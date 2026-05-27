@@ -49,12 +49,12 @@ N: int = CURVE.order
 
 # --- Захардкоженные параметры (для воспроизводимости) ---
 PRIVATE_KEY_D: int = int(
-    "c9afc3c6e4b3a8e2f1d5c7b9a2e4d6f8"
-    "1a3c5e7b9d2f4a6c8e0b2d4f6a8c0e2b", 16,
+    "c9afc3c6e4b3a8e2f1d5c7b9a2e4d6f8" "1a3c5e7b9d2f4a6c8e0b2d4f6a8c0e2b",
+    16,
 )
 NONCE_K: int = int(
-    "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6"
-    "e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2", 16,
+    "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6" "e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+    16,
 )
 MESSAGE_1 = b"Pay 1 BTC to Alice"
 MESSAGE_2 = b"Pay 1 BTC to Bob"
@@ -64,6 +64,7 @@ MESSAGE_2 = b"Pay 1 BTC to Bob"
 # Вспомогательная функция (уже реализована)
 # ---------------------------------------------------------------------------
 
+
 def hash_message(msg: bytes) -> int:
     """SHA-256 хэш сообщения как целое число (стандарт для ECDSA)."""
     return int.from_bytes(hashlib.sha256(msg).digest(), "big")
@@ -72,6 +73,7 @@ def hash_message(msg: bytes) -> int:
 # ---------------------------------------------------------------------------
 # ТВОЯ ЗАДАЧА
 # ---------------------------------------------------------------------------
+
 
 def ecdsa_sign_with_k(message: bytes, d: int, k: int) -> tuple[int, int]:
     """ECDSA подпись с явным nonce k.
@@ -138,6 +140,7 @@ def recover_private_key(h1: int, h2: int, r: int, s1: int, s2: int) -> int:
 # main()
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     print("=" * 60)
     print("  ECDSA Nonce Reuse → Private Key Recovery")
@@ -145,9 +148,9 @@ def main() -> None:
 
     public_key = PRIVATE_KEY_D * G
 
-    print(f"\n[*] Кривая: secp256k1  (Bitcoin, Ethereum)")
+    print("\n[*] Кривая: secp256k1  (Bitcoin, Ethereum)")
     print(f"[*] d (приватный): {hex(PRIVATE_KEY_D)[:18]}...")
-    print(f"[!] БАГ: оба сообщения подписаны с одним k")
+    print("[!] БАГ: оба сообщения подписаны с одним k")
 
     h1 = hash_message(MESSAGE_1)
     h2 = hash_message(MESSAGE_2)

@@ -29,8 +29,10 @@ SERVER_URL = "http://127.0.0.1:5000"
 
 
 def start_server() -> None:
-    from server import app
     import logging
+
+    from server import app
+
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
     app.run(host="127.0.0.1", port=5000, debug=False, use_reloader=False)
 
@@ -48,6 +50,7 @@ def wait_for_server(timeout: int = 10) -> bool:
 # ---------------------------------------------------------------------------
 # ТВОЯ ЗАДАЧА
 # ---------------------------------------------------------------------------
+
 
 def attack_length_extension(
     original_token: str,
@@ -75,6 +78,7 @@ def attack_length_extension(
 # ---------------------------------------------------------------------------
 # main()
 # ---------------------------------------------------------------------------
+
 
 def main() -> bool:
     print("=" * 58)
