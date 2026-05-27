@@ -1,0 +1,22 @@
+# TODO: replace placeholders with actual GitHub usernames before adding collaborators
+
+# Default owner for everything
+* @bogdan-github  # TODO: replace with actual GitHub username
+
+# Infrastructure and CI
+/infrastructure/ @bogdan-github
+/.github/ @bogdan-github
+/docs/ @bogdan-github
+
+# Demos by owner
+/demos/01_ecb_penguin/ @osman-github  # TODO: replace with actual GitHub username
+/demos/02_gcm_nonce_reuse/ @osman-github
+/demos/03_textbook_rsa_cca/ @bogdan-github
+/demos/04_ecdsa_nonce_reuse/ @bogdan-github
+/demos/05_length_extension/ @kirill-github  # TODO: replace with actual GitHub username
+/demos/06_md5_collision/ @kirill-github
+
+# Slides by owner
+/slides/01_osman_symmetric/ @osman-github
+/slides/02_bogdan_asymmetric/ @bogdan-github
+/slides/03_kirill_hashes/ @kirill-github

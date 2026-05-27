@@ -1,0 +1,26 @@
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]
+
+# Скелеты демок импортируют библиотеки для подсказок в docstrings —
+# импорты "неиспользованы" пока студент не реализует функции.
+[tool.ruff.lint.per-file-ignores]
+"demos/**/demo.py"   = ["F401"]
+"demos/**/server.py" = ["F401"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+warn_unused_ignores = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "demos"]
+python_files = ["smoke_test.py", "test_*.py"]
