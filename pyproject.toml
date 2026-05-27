@@ -24,3 +24,4 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests", "demos"]
 python_files = ["smoke_test.py", "test_*.py"]
+addopts = "--import-mode=importlib"
