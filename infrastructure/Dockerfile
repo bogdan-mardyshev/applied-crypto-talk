@@ -12,4 +12,4 @@ WORKDIR /workspace
 COPY infrastructure/requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]
