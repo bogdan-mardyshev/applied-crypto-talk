@@ -1,7 +1,7 @@
 .PHONY: setup shell test smoke lint format clean help \
         demo-01 demo-02 demo-03 demo-04 demo-05 demo-06
 
-DOCKER_COMPOSE = docker compose
+DOCKER_COMPOSE = docker compose -f infrastructure/docker-compose.yml --project-directory .
 RUN = $(DOCKER_COMPOSE) run --rm app
 
 ## setup: собрать Docker-образ и установить pre-commit хуки локально
