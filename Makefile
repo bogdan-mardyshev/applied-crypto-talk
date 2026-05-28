@@ -13,9 +13,9 @@ setup:
 shell:
 	$(DOCKER_COMPOSE) run --rm app bash
 
-## test: запустить pytest с coverage внутри контейнера
+## test: запустить pytest внутри контейнера
 test:
-	$(RUN) bash -c "cd /workspace && pytest --cov=demos --cov-report=term-missing -v"
+	$(RUN) bash -c "cd /workspace && pytest -v --tb=short"
 
 ## smoke: запустить дымовые тесты всех демок
 smoke:
