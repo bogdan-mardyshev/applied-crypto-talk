@@ -44,30 +44,15 @@ def truncated_md5(data: bytes, bits: int) -> bytes:
 
 
 def find_collision(bits: int = 24) -> tuple[bytes, bytes, int]:
-    """Birthday attack: найти два разных сообщения с одинаковым truncated MD5.
-
-    Алгоритм (одна из реализаций):
-        seen: dict[bytes, bytes] = {}   # {хэш: сообщение}
-        attempts = 0
-        while True:
-            msg = os.urandom(8)         # случайное 8-байтное сообщение
-            h   = truncated_md5(msg, bits)
-            attempts += 1
-            if h in seen and seen[h] != msg:
-                return seen[h], msg, attempts   # КОЛЛИЗИЯ!
-            seen[h] = msg
-
-    Математика:
-        Ожидаемое число попыток ≈ 1.25 * 2^(bits/2)
-        bits=16 → ~323 попытки
-        bits=24 → ~5140 попыток
-        bits=128 (полный MD5 без атаки Wang) → ~2^64 попытки
-
-    Returns:
-        (msg1, msg2, attempts)
-        Гарантии: msg1 != msg2  AND  truncated_md5(msg1, bits) == truncated_md5(msg2, bits)
-    """
-    raise NotImplementedError("Реализуй birthday attack!")
+    seen = {}  # {хэш: сообщение}
+    attempts = 0
+    while True:
+        msg = os.urandom(8)  # случайное 8-байтное сообщение
+        h = truncated_md5(msg, bits)  # обрезанный хэш от входа
+        attempts += 1
+        if h in seen and seen[h] != msg:
+            return seen[h], msg, attempts  # КОЛЛИЗИЯ! попалась сучка
+        seen[h] = msg
 
 
 # ---------------------------------------------------------------------------
