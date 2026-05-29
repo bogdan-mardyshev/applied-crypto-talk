@@ -1,78 +1,28 @@
-"""
-Demo 06 — MD5 Collision: Birthday Attack на усечённый хэш.
-
-Вместо магических захардкоженных байт (Wang 2004) — объяснение КАК
-работает birthday attack. Принцип тот же, что лежит в основе всех
-collision attacks.
-
-== Парадокс дней рождения ==
-
-При n-битном хэше ожидаемое число попыток до коллизии ≈ 2^(n/2).
-
-    MD5  (128 бит): теоретически 2^64 ≈ 1.8×10^19 попыток
-    Wang 2004 (differential cryptanalysis): ~2^24 ≈ 16 млн
-    Сегодня: fastcoll находит коллизию MD5 за <1 секунды
-
-== Что делает эта демка ==
-
-    16-бит prefix MD5 → коллизия за ~500 попыток  (мгновенно)
-    24-бит prefix MD5 → коллизия за ~5000 попыток (мгновенно)
-
-Ты увидишь в реальном времени как birthday attack находит коллизию.
-
-ЗАДАЧА: реализовать find_collision() ниже.
-
-Запуск: python demo.py
-"""
-
 import hashlib
 import os
 import time
 
 
 def truncated_md5(data: bytes, bits: int) -> bytes:
-    """Первые `bits` бит MD5 хэша (кратно 8).
-
-    Пример: truncated_md5(b"hello", 16) → bytes длиной 2
-    """
     return hashlib.md5(data).digest()[: bits // 8]
 
 
-# ---------------------------------------------------------------------------
-# ТВОЯ ЗАДАЧА
-# ---------------------------------------------------------------------------
-
-
 def find_collision(bits: int = 24) -> tuple[bytes, bytes, int]:
-    """Birthday attack: найти два разных сообщения с одинаковым truncated MD5.
-
-    Алгоритм (одна из реализаций):
-        seen: dict[bytes, bytes] = {}   # {хэш: сообщение}
-        attempts = 0
-        while True:
-            msg = os.urandom(8)         # случайное 8-байтное сообщение
-            h   = truncated_md5(msg, bits)
-            attempts += 1
-            if h in seen and seen[h] != msg:
-                return seen[h], msg, attempts   # КОЛЛИЗИЯ!
-            seen[h] = msg
-
-    Математика:
-        Ожидаемое число попыток ≈ 1.25 * 2^(bits/2)
-        bits=16 → ~323 попытки
-        bits=24 → ~5140 попыток
-        bits=128 (полный MD5 без атаки Wang) → ~2^64 попытки
-
-    Returns:
-        (msg1, msg2, attempts)
-        Гарантии: msg1 != msg2  AND  truncated_md5(msg1, bits) == truncated_md5(msg2, bits)
-    """
-    raise NotImplementedError("Реализуй birthday attack!")
-
-
-# ---------------------------------------------------------------------------
-# main()
-# ---------------------------------------------------------------------------
+    pairs = {}  # create a dict with pairs (hash and messages)
+    attempts = 0  # counter of attempts
+    while True:
+        enter = os.urandom(8)  # randomly taken message
+        hash_ = truncated_md5(enter, bits)  # hashing the message
+        attempts += 1  # +1 attempt
+        if (
+            hash_ in pairs and pairs[hash_] != enter
+        ):  # cheking if hash is already i n dict and if original messages are different
+            return (
+                pairs[hash_],
+                enter,
+                attempts,
+            )  # returning first and second messages and amount of attempts until finding collision
+        pairs[hash_] = enter  # adding new pair into dict
 
 
 def main() -> None:
