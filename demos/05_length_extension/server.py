@@ -1,9 +1,3 @@
-"""
-Demo 05 — Flask сервер с уязвимой MAC-схемой.
-
-Схема: token = MD5(SECRET || payload)  ← уязвима к length extension!
-"""
-
 import hashlib
 import hmac
 
@@ -11,35 +5,19 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# В реальном проекте: SECRET = os.environ["TOKEN_SECRET"]
-SECRET = b"s3cr3t_k3y"  # 10 байт
-
-
-# ---------------------------------------------------------------------------
-# ТВОЯ ЗАДАЧА: реализовать две функции создания токена
-# ---------------------------------------------------------------------------
+SECRET = b"s3cr3t_k3y"  # 10 bytes
 
 
 def make_vulnerable_token(data: bytes) -> str:
-    """Уязвимая схема: MD5(SECRET || data).
-
-    Подсказка: hashlib.md5(SECRET + data).hexdigest()
-    """
-    raise NotImplementedError("Реализуй уязвимый токен")
+    return hashlib.md5(
+        SECRET + data
+    ).hexdigest()  # made token using secret and our data and then got it in hex-string
 
 
 def make_safe_token(data: bytes) -> str:
-    """Безопасная схема: HMAC-MD5(key=SECRET, msg=data).
-
-    Подсказка: hmac.new(SECRET, data, hashlib.md5).hexdigest()
-    Почему не уязвима: HMAC = H((K⊕opad) || H((K⊕ipad) || m))
-    """
-    raise NotImplementedError("Реализуй HMAC токен")
-
-
-# ---------------------------------------------------------------------------
-# Endpoints (не менять логику роутов)
-# ---------------------------------------------------------------------------
+    return hmac.new(
+        SECRET, data, hashlib.md5
+    ).hexdigest()  # making HMAC-MD5 which is resistant to length extension (2 hash layers)
 
 
 def verify_vulnerable_token(data: bytes, token: str) -> bool:
@@ -52,9 +30,6 @@ def verify_safe_token(data: bytes, token: str) -> bool:
 
 @app.route("/login", methods=["POST"])
 def login():
-    """POST /login {"username": "alice"}
-    → {"token": "...", "payload": "...", "secret_len": 10}
-    """
     body = request.get_json(force=True)
     username = "".join(c for c in body.get("username", "guest") if c.isalnum())
     payload = f"username={username}&role=user".encode()
